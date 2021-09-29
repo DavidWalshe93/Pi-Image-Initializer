@@ -1,5 +1,3 @@
-# Initialises a Raspberry Pi Image to use SSH and set a static IP address.
-
 - name: "Setup Pi"
   hosts: localhost
   become: yes
@@ -9,6 +7,13 @@
       prompt: "What is the new password?"
       private: no
   tasks:
+    # -----------------------------------------------------------
+    # Load Parameters
+    # -----------------------------------------------------------
+    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+      include_vars:
+        file: vars.yml
+        name: net
     # -----------------------------------------------------------
     # Set Static IP Address on PI
     # -----------------------------------------------------------
@@ -26,9 +31,9 @@
         - "# -----------------------------------"
         - interface wlan0
         - "\n"
-        - static ip_address=192.168.0.7/24
-        - static routers=192.168.0.1
-        - static domain_name_servers=192.168.0.1
+        - "static ip_address={{ net.ip_address }}"
+        - "static routers={{ net.routers }}"
+        - "static domain_name_servers={{ net.domain_name_servers }}"
       when: static_ip_set.stdout == "0"
     # -----------------------------------------------------------
     # Enable SSH
