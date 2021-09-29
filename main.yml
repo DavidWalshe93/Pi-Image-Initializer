@@ -1,0 +1,74 @@
+# Initialises a Raspberry Pi Image to use SSH and set a static IP address.
+
+- name: "Setup Pi"
+  hosts: localhost
+  become: yes
+  connection: local
+  vars_prompt:
+    - name: password
+      prompt: "What is the new password?"
+      private: no
+  tasks:
+    # -----------------------------------------------------------
+    # Set Static IP Address on PI
+    # -----------------------------------------------------------
+    - name: Check if Static IP address is set
+      shell: grep -c "interface wlan0" /etc/dhcpcd.conf || true
+      register: static_ip_set
+    - name: Set static IP address
+      lineinfile:
+        path: /etc/dhcpcd.conf
+        insertafter: EOF
+        line: "{{ item }}"
+      loop:
+        - "\n"
+        - "# Adding to assign static IP address."
+        - "# -----------------------------------"
+        - interface wlan0
+        - "\n"
+        - static ip_address=192.168.0.7/24
+        - static routers=192.168.0.1
+        - static domain_name_servers=192.168.0.1
+      when: static_ip_set.stdout == "0"
+    # -----------------------------------------------------------
+    # Enable SSH
+    # -----------------------------------------------------------
+    - name: Enable SSH
+      file:
+        path: /boot/ssh
+        state: touch
+    # -----------------------------------------------------------
+    # Optional - Set new password.
+    # -----------------------------------------------------------
+    - name: Update user password
+      user:
+        name: pi
+        update_password: always
+        password: "{{ password|password_hash('sha512') }}"
+      when: password | length > 0
+    # -----------------------------------------------------------
+    # Setup Custom Aliases
+    # -----------------------------------------------------------
+    - name: Check if aliases are already set
+      shell: grep -c "Custom Aliases" /home/pi/.bashrc || true
+      register: custom_aliases_set
+    - name: Add custom aliases
+      lineinfile:
+        path: /home/pi/.bashrc
+        insertafter: EOF
+        line: "{{ item }}"
+      loop:
+        - "\n"
+        - "# Custom Aliases."
+        - "# -----------------------------------"
+        - alias ..="cd .."
+        - alias ll="ls -l"
+        - alias la="ls -la"
+        - alias p="pwd"
+        - alias a="source /home/pi/.bashrc"
+        - alias ae="code /home/pi/.bashrc"
+        - alias l.="ls -d .*"
+        - alias act="source ./venv/bin/activate"
+        - alias deact="deactivate"
+      when: custom_aliases_set.stdout == "0"
+      
