@@ -16,8 +16,15 @@ Tasks:
   ```shell
   source install.sh
   ```
+2) You need to set the following in `vars.yml` to match your LAN
 
-2) Run ansible playbook `main.yml` to setup image correctly
+```shell
+ip_address: "X.X.X.X/N"
+routers: "X.X.X.X"
+domain_name_servers: "X.X.X.X"
+```
+
+3) Once the above parameters have been set, run the ansible playbook `main.yml` to setup image correctly
 
   ```shell
   ansible-playbook main.yml
