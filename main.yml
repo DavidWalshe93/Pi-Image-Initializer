@@ -5,19 +5,19 @@
   vars_prompt:
     - name: password
       prompt: "What is the new password?"
-      private: no
+      private: yes
   tasks:
     # -----------------------------------------------------------
     # Load Parameters
     # -----------------------------------------------------------
-    - name: Include vars of stuff.yaml into the 'stuff' variable (2.2).
+    - name: Include vars of vars.yaml into the 'network' variable.
       include_vars:
         file: vars.yml
-        name: net
+        name: network
     # -----------------------------------------------------------
     # Set Static IP Address on PI
     # -----------------------------------------------------------
-    - name: Check if Static IP address is set
+    - name: Checking if static IP address is set
       shell: grep -c "interface wlan0" /etc/dhcpcd.conf || true
       register: static_ip_set
     - name: Set static IP address
@@ -31,9 +31,9 @@
         - "# -----------------------------------"
         - interface wlan0
         - "\n"
-        - "static ip_address={{ net.ip_address }}"
-        - "static routers={{ net.routers }}"
-        - "static domain_name_servers={{ net.domain_name_servers }}"
+        - "static ip_address={{ network.ip_address }}"
+        - "static routers={{ network.routers }}"
+        - "static domain_name_servers={{ network.domain_name_servers }}"
       when: static_ip_set.stdout == "0"
     # -----------------------------------------------------------
     # Enable SSH
