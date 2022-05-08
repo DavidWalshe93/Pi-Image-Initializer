@@ -67,6 +67,7 @@
     - name: Add custom aliases file '.bash_profile'
       lineinfile:
         path: "/home/{{ username }}/.bash_profile"
+        create: yes
         insertafter: EOF
         line: "{{ item }}"
       loop:
