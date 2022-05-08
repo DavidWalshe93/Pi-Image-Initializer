@@ -66,7 +66,7 @@
 
     - name: Add custom aliases file '.bash_profile'
       template:
-        src: .bash_profile
+        src: .bash_profile.j2
         dest: "/home/{{ username }}/.bash_profile"
         mode: 0755
       when: not custom_aliases.stat.exists
