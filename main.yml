@@ -3,7 +3,7 @@
   become: yes
   connection: local
   vars:
-    username: '{{ lookup('env', 'HOME') }}'
+    username: "{{ lookup('env', 'HOME') }}"
   vars_prompt:
     - name: password
       prompt: "What is the new password?"
