@@ -6,12 +6,12 @@
     username: "{{ lookup('env', 'USER') }}"
   vars_prompt:
     - name: password
-      prompt: "What is the new password?"
+      prompt: "What is the new password (Enter to skip)?"
       private: yes
   tasks:
     - name: "Who am I?"
       debug:
-        msg: "Running as {{USER}}"
+        msg: "Running as {{username}}"
     # -----------------------------------------------------------
     # Load Parameters
     # -----------------------------------------------------------
