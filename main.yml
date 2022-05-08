@@ -84,5 +84,28 @@
         - alias l.="ls -d .*"
         - alias act="source ./venv/bin/activate"
         - alias deact="deactivate"
+        - "#==================================================="
+        - "# Prompt"
+        - "#==================================================="
+        - "red=$(tput setaf 1)"
+        - "green=$(tput setaf 2)"
+        - "blue=$(tput setaf 4)"
+        - "cyan=$(tput setaf 6)"
+        - "reset=$(tput sgr0)"
+        - "\n"
+        - "function PROMPT_BRANCH() {"
+        - "# Return the current branch or none if no .git is present."
+        - "branch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`"
+        - "\n"
+        - 'if [ -z "$branch" ]'
+        - '\n'
+        - 'then'
+        - 'echo ""'
+        - 'else'
+        - 'echo " $cyan(${branch})$reset"'
+        - 'fi'
+        - '}'
+        - "\n"
+        - "export PS1='\[$red\][\t]\[$reset\]:\[$green\]\u-win\[$reset\]:\[$blue\]\W\[$reset\]$(PROMPT_BRANCH) \$ '"
       when: not custom_aliases.stat.exists
       
