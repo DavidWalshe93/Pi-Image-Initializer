@@ -59,10 +59,12 @@
     # -----------------------------------------------------------
     # Setup Custom Aliases
     # -----------------------------------------------------------
-    - name: Check if aliases are already set
-      shell: grep -c "Custom Aliases" "/home/{{ username }}/.bash_profile" || true
-      register: custom_aliases_set
-    - name: Add custom aliases
+    - name: Check if aliases file already exists
+      stat:
+        path: /home/{{ username }}/.bash_profile
+      register: custom_aliases
+
+    - name: Add custom aliases file '.bash_profile'
       lineinfile:
         path: "/home/{{ username }}/.bash_profile"
         insertafter: EOF
@@ -80,5 +82,5 @@
         - alias l.="ls -d .*"
         - alias act="source ./venv/bin/activate"
         - alias deact="deactivate"
-      when: custom_aliases_set.stdout == "0"
+      when: not custom_aliases.stat.exists
       
