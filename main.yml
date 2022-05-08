@@ -60,11 +60,11 @@
     # Setup Custom Aliases
     # -----------------------------------------------------------
     - name: Check if aliases are already set
-      shell: grep -c "Custom Aliases" "/home/{{ username }}/.bashrc" || true
+      shell: grep -c "Custom Aliases" "/home/{{ username }}/.bash_profile" || true
       register: custom_aliases_set
     - name: Add custom aliases
       lineinfile:
-        path: "/home/{{ username }}/.bashrc"
+        path: "/home/{{ username }}/.bash_profile"
         insertafter: EOF
         line: "{{ item }}"
       loop:
@@ -75,8 +75,8 @@
         - alias ll="ls -l"
         - alias la="ls -la"
         - alias p="pwd"
-        - 'alias a="source /home/{{username}}/.bashrc"'
-        - 'alias ae="code /home/{{username}}/.bashrc"'
+        - 'alias a="source /home/{{username}}/.bash_profile"'
+        - 'alias ae="code /home/{{username}}/.bash_profile"'
         - alias l.="ls -d .*"
         - alias act="source ./venv/bin/activate"
         - alias deact="deactivate"
