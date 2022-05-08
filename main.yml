@@ -2,6 +2,8 @@
   hosts: localhost
   become: yes
   connection: local
+  vars:
+    username: '{{ lookup('env', 'HOME') }}'
   vars_prompt:
     - name: password
       prompt: "What is the new password?"
@@ -47,7 +49,7 @@
     # -----------------------------------------------------------
     - name: Update user password
       user:
-        name: pi
+        name: "{{ username }}"
         update_password: always
         password: "{{ password|password_hash('sha512') }}"
       when: password | length > 0
@@ -55,11 +57,11 @@
     # Setup Custom Aliases
     # -----------------------------------------------------------
     - name: Check if aliases are already set
-      shell: grep -c "Custom Aliases" /home/pi/.bashrc || true
+      shell: grep -c "Custom Aliases" "/home/{{ username }}/.bashrc" || true
       register: custom_aliases_set
     - name: Add custom aliases
       lineinfile:
-        path: /home/pi/.bashrc
+        path: "/home/{{ username }}/.bashrc"
         insertafter: EOF
         line: "{{ item }}"
       loop:
