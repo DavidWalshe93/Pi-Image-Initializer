@@ -75,8 +75,8 @@
         - alias ll="ls -l"
         - alias la="ls -la"
         - alias p="pwd"
-        - alias a="source /home/pi/.bashrc"
-        - alias ae="code /home/pi/.bashrc"
+        - 'alias a="source /home/{{username}}/.bashrc"'
+        - 'alias ae="code /home/{{username}}/.bashrc"'
         - alias l.="ls -d .*"
         - alias act="source ./venv/bin/activate"
         - alias deact="deactivate"
