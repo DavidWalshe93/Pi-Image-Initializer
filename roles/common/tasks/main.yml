@@ -9,6 +9,6 @@
   template:
     src: .bash_profile.j2
     dest: /home/{{ username }}/.bash_profile
-    mode: 0755
+    mode: "0755"
 
 

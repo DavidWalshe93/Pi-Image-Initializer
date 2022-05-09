@@ -14,9 +14,9 @@
     - "# -----------------------------------"
     - interface wlan0
     - "\n"
-    - "static ip_address={{ network.ip_address }}"
-    - "static routers={{ network.routers }}"
-    - "static domain_name_servers={{ network.domain_name_servers }}"
+    - "static ip_address={{ ip_address }}"
+    - "static routers={{ routers }}"
+    - "static domain_name_servers={{ domain_name_servers }}"
   when: static_ip_set.stdout == "0"
 
 - name: Enable SSH
