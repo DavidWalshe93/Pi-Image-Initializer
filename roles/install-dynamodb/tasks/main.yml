@@ -16,5 +16,4 @@
     dest: "/home/{{username}}/dynamodb"
 
 - name: Start DynamoDB
-  shell:
-    command: "java -Djava.library.path=/home/{{ username }}/dynamodb/dynamodb_local/ -jar DynamoDBLocal.jar -sharedDb"
+  shell: "java -Djava.library.path=/home/{{ username }}/dynamodb/DynamoDBLocal_Lib/ -jar DynamoDBLocal.jar -sharedDb"
