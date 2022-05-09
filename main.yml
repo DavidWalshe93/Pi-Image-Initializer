@@ -87,6 +87,11 @@
       shell: bash tmp/get-docker.sh
       when: docker_installed.stdout == ""
 
+    - name: Create Docker group
+      group:
+        name: docker
+        state: present
+
     - name: Add user to docker group
       user:
         name: "{{ username }}"
