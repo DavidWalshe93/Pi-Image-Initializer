@@ -70,4 +70,17 @@
         dest: "/home/{{ username }}/.bash_profile"
         mode: 0755
       when: not custom_aliases.stat.exists
+    # -----------------------------------------------------------
+    # Setup Docker
+    # -----------------------------------------------------------
+    - name: Check if Docker is installed
+      shell: which docker || true
+      register: docker_installed
+    - name: Get get-docker script
+      shell: curl -fsSL https://get.docker.com -o "/home/{{username}}/get-docker.sh"
+      when: docker_installed.stdout == ""
+    - name: Run get-docker script
+      shell: bash "/home/{{username}}/get-docker.sh"
+
+
       
