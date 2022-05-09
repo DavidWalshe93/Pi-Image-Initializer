@@ -8,7 +8,7 @@
 - name: Setup aliases file
   template:
     src: .bash_profile.j2
-    dest: /home/{{ USERNAME }}/.bash_profile
+    dest: /home/{{ username }}/.bash_profile
     mode: 0755
 
 
