@@ -16,6 +16,12 @@ alias deact="deactivate"
 alias grep="grep --color=auto"
 
 #===================================================
+# PATH
+#===================================================
+export PATH="/usr/local:$PATH"
+export PATH="/usr/local/bin:$PATH"
+
+#===================================================
 # Prompt
 #===================================================
 red=$(tput setaf 1)
@@ -39,5 +45,8 @@ function PROMPT_BRANCH() {
 
 
 export PS1='\[$red\][\t]\[$reset\]:\[$green\]\u\[$reset\]:\[$blue\]\W\[$reset\]$(PROMPT_BRANCH) \$ '
+
+
+
 
 echo "Sourced aliases"

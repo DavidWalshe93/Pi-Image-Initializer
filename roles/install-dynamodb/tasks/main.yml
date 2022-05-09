@@ -5,7 +5,7 @@
     state: directory
     mode: '0755'
 
-- name: Get DynamoDB binary
+- name: Download DynamoDB binary
   get_url:
     url: "https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz"
     dest: "{{ dynamodb_dir }}/dynamodb_local.tar.gz"

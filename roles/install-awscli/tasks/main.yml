@@ -1,4 +1,22 @@
 ---
-- name: Install AWS CLI via Pip
-  pip:
-    name: awscli
+
+- name: Check if AWS CLI is installed
+  shell: "aws --version"
+  register: awscli_installed
+  ignore_errors: yes
+
+- name: Download AWS CLI binary
+  get_url:
+    url: "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip"
+    dest: "/tmp/awscli.zip"
+  when: awscli_installed is failed
+
+- name: Extract AWS CLI binary
+  unarchive:
+    src: "/tmp/awscli.zip"
+    dest: "/tmp/awscli"
+  when: awscli_installed is failed
+
+- name: Install AWS CLI
+  shell: "/tmp/awscli/install"
+  when: awscli_installed is failed
