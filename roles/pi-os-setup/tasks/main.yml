@@ -1,0 +1,102 @@
+---
+
+- block:
+  - name: "Who am I?"
+    debug:
+      msg: "Running as {{username}}"
+
+  # -----------------------------------------------------------
+  # Load Parameters
+  # -----------------------------------------------------------
+  - name: Include vars of vars.yaml into the 'network' variable.
+    include_vars:
+      file: vars.yml
+      name: network
+
+  # -----------------------------------------------------------
+  # Set Static IP Address on PI
+  # -----------------------------------------------------------
+  - name: Checking if static IP address is set
+    shell: grep -c "interface wlan0" /etc/dhcpcd.conf || true
+    register: static_ip_set
+  - name: Set static IP address
+    lineinfile:
+      path: /etc/dhcpcd.conf
+      insertafter: EOF
+      line: "{{ item }}"
+    loop:
+      - "\n"
+      - "# Adding to assign static IP address."
+      - "# -----------------------------------"
+      - interface wlan0
+      - "\n"
+      - "static ip_address={{ network.ip_address }}"
+      - "static routers={{ network.routers }}"
+      - "static domain_name_servers={{ network.domain_name_servers }}"
+    when: static_ip_set.stdout == "0"
+  # -----------------------------------------------------------
+  # Enable SSH
+  # -----------------------------------------------------------
+  - name: Enable SSH
+    file:
+      path: /boot/ssh
+      state: touch
+  # -----------------------------------------------------------
+  # Optional - Set new password.
+  # -----------------------------------------------------------
+  - name: Update user password
+    user:
+      name: "{{ username }}"
+      update_password: always
+      password: "{{ password|password_hash('sha512') }}"
+    when: password | length > 0
+  # -----------------------------------------------------------
+  # Setup Custom Aliases
+  # -----------------------------------------------------------
+  - name: Check if aliases file already exists
+    stat:
+      path: /home/{{ username }}/.bash_profile
+    register: custom_aliases
+
+  - name: Add custom aliases file '.bash_profile'
+    template:
+      src: .bash_profile.j2
+      dest: "/home/{{ username }}/.bash_profile"
+      mode: 0755
+    when: not custom_aliases.stat.exists
+  # -----------------------------------------------------------
+  # Setup Docker
+  # -----------------------------------------------------------
+  - name: Check if Docker is installed
+    shell: which docker || true
+    register: docker_installed
+
+  - name: Get get-docker script from Docker.com
+    get_url:
+      url: https://get.docker.com
+      dest: /tmp/get-docker.sh
+    when: docker_installed.stdout == ""
+
+  - name: Run get-docker script
+    shell: bash tmp/get-docker.sh
+    when: docker_installed.stdout == ""
+
+  - name: Create Docker group
+    group:
+      name: docker
+      state: present
+
+  - name: Add user to docker group
+    user:
+      name: "{{ username }}"
+      groups: docker
+      append: yes
+
+  - name: Give permissions to docker group to execute Docker.
+    ansible.builtin.file:
+      path: /var/run/docker.sock
+      owner: root
+      group: docker
+      mode: "774"
+
+  when: ansible_distribution == "Raspbian"

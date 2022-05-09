@@ -1,0 +1,26 @@
+---
+- name: Checking if static IP is configured
+  shell: grep -c "interface wlan0" /etc/dhcpcd.conf || true
+  register: static_ip_set
+
+- name: Setup static IP
+  lineinfile:
+    path: /etc/dhcpcd.conf
+    insertafter: EOF
+    line: "{{ item }}"
+  loop:
+    - "\n"
+    - "# Adding to assign static IP address."
+    - "# -----------------------------------"
+    - interface wlan0
+    - "\n"
+    - "static ip_address={{ network.ip_address }}"
+    - "static routers={{ network.routers }}"
+    - "static domain_name_servers={{ network.domain_name_servers }}"
+  when: static_ip_set.stdout == "0"
+
+- name: Enable SSH
+  file:
+    path: /boot/ssh
+    state: touch
+

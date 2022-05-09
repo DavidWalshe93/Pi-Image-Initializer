@@ -1,0 +1,8 @@
+# # The static IP address for the Pi (Outside the DHCP range)
+# ip_address: "X.X.X.X/N"
+
+# # The address of your router.
+# routers: "X.X.X.X"
+
+# # The domain name of your network (Usually the same as the router address in a home Network.
+# domain_name_servers: "X.X.X.X"

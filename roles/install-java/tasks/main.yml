@@ -1,0 +1,9 @@
+---
+- name: Check if Java is installed
+  command: "java -version"
+  register: java_installed
+  ignore_errors: yes
+
+- name: Install Java
+  shell: apt install default-jdk -y
+  when: java_installed is failed

@@ -1,0 +1,14 @@
+---
+- name: Running 'apt-get update'
+  shell: apt-get update
+
+- name: Running 'apt-get upgrade'
+  shell: apt-get upgrade
+
+- name: Setup aliases file
+  template:
+    src: .bash_profile.j2
+    dest: /home/{{ USERNAME }}/.bash_profile
+    mode: 0755
+
+
