@@ -1,0 +1,2 @@
+---
+dynamodb_dir: "/home/{{username}}/dynamodb"
