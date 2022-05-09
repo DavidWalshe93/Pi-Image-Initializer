@@ -1,6 +1,6 @@
 ---
 - name: Check if DynamoDB is already installed
-  shell: "ls {{ dynamodb_dir }} | grep -i DynamoDBLocal.jar"
+  shell: "ls {{ dynamodb_jar }}"
   register: dynamodb_installed || true
   ignore_errors: yes
 
@@ -9,20 +9,20 @@
     path: "{{ dynamodb_dir }}"
     state: directory
     mode: '0755'
-  when: not dynamodb_installed
+  when: dynamodb_installed is failed
 
 - name: Download DynamoDB binary
   get_url:
     url: "https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz"
     dest: "{{ dynamodb_dir }}/dynamodb_local.tar.gz"
-  when: not dynamodb_installed
+  when: dynamodb_installed is failed
 
 - name: Extract DynamoDB binary
   unarchive:
     src: "{{ dynamodb_dir }}/dynamodb_local.tar.gz"
     dest: "{{ dynamodb_dir }}"
   register: dynamo_path
-  when: not dynamodb_installed
+  when: dynamodb_installed is failed
 
 - name: Start DynamoDB
   shell: "java -Djava.library.path={{ dynamodb_dir }}/DynamoDBLocal_Lib/ -jar {{ dynamodb_dir }}/DynamoDBLocal.jar -sharedDb -optimizeDbBeforeStartup -port {{ dynamodb_port }} &"

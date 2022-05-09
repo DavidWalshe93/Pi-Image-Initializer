@@ -1,3 +1,4 @@
 ---
 dynamodb_dir: "/home/{{username}}/dynamodb"
+dynamodb_jar: "{{dynamodb_dir}}/DynamoDBLocal.jar"
 dynamodb_port: 8000
