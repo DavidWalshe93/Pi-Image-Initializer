@@ -11,6 +11,6 @@
   roles:
     - common
     - install-awscli
+    - install-dynamodb
 #    - setup-ssh
 #    - install-java
-#    - install-dynamodb
