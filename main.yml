@@ -103,6 +103,6 @@
         path: /var/run/docker.sock
         owner: root
         group: docker
-        mode: 775
+        mode: 777
 
       
