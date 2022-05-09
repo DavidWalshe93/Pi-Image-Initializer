@@ -1,10 +1,4 @@
 ---
-- name: Make awscli directory
-  file:
-    path: "/tmp/awscli"
-    state: directory
-    mode: '0755'
-
 - name: Check if AWS CLI is installed
   shell: "aws --version"
   register: awscli_installed
@@ -19,9 +13,9 @@
 - name: Extract AWS CLI binary
   unarchive:
     src: "/tmp/awscli.zip"
-    dest: "/tmp/awscli"
+    dest: "/tmp"
   when: awscli_installed is failed
 
 - name: Install AWS CLI
-  shell: "/tmp/awscli/install"
+  shell: "/tmp/aws/install"
   when: awscli_installed is failed
