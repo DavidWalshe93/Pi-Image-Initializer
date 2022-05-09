@@ -1,0 +1,20 @@
+---
+- name: Make DynamoDB directory
+  file:
+    path: "/home/{{username}}/dynamodb"
+    state: directory
+    mode: '0755'
+
+- name: Get DynamoDB binary
+  get_url:
+    url: "https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz"
+    dest: "/home/{{username}}/dynamodb/dynamodb_local.tar.gz"
+
+- name: Extract DynamoDB binary
+  unarchive:
+    src: "/home/{{username}}/dynamodb/dynamodb_local.tar.gz"
+    dest: "/home/{{username}}/dynamodb/dynamodb_local"
+
+- name: Start DynamoDB
+  shell:
+    command: "java -Djava.library.path=/home/{{ username }}/dynamoDB/dynamodb_local/ -jar DynamoDBLocal.jar -sharedDb"
