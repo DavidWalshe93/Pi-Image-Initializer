@@ -1,0 +1,4 @@
+---
+- name: Reboot the Pi
+  reboot:
+    delay: 0
