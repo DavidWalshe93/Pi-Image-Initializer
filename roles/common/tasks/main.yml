@@ -5,6 +5,12 @@
     update_cache: yes
     cache_valid_time: 86400       # Run if older than 24 hours
 
+- name: Install packages
+  apt:
+    - name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+
 - name: Setup aliases file
   template:
     src: .bash_profile.j2

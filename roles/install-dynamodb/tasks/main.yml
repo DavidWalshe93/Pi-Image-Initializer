@@ -17,4 +17,4 @@
   register: dynamo_path
 
 - name: Start DynamoDB
-  shell: "java -Djava.library.path={{ dynamodb_dir }}/DynamoDBLocal_Lib/ -jar {{ dynamodb_dir }}/DynamoDBLocal.jar -sharedDb"
+  shell: "java -Djava.library.path={{ dynamodb_dir }}/DynamoDBLocal_Lib/ -jar {{ dynamodb_dir }}/DynamoDBLocal.jar -sharedDb -optimizeDbBeforeStartup &"

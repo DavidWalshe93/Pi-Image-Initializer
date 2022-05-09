@@ -1,0 +1,4 @@
+---
+- name: Install AWS CLI via Pip
+  pip:
+    name: awscli

@@ -2,4 +2,4 @@
 sudo apt update
 
 # Install Ansible and package dependencies.
-sudo apt install -y ansible sshpass vim
+sudo apt install -y ansible sshpass
