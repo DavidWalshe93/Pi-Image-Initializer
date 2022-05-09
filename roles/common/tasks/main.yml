@@ -1,9 +1,9 @@
 ---
-- name: Running 'apt-get update'
-  shell: apt-get update
-
-- name: Running 'apt-get upgrade'
-  shell: apt-get upgrade
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400       # Run if older than 24 hours
 
 - name: Setup aliases file
   template:
