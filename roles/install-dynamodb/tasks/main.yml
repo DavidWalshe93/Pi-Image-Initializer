@@ -13,8 +13,8 @@
 - name: Extract DynamoDB binary
   unarchive:
     src: "/home/{{username}}/dynamodb/dynamodb_local.tar.gz"
-    dest: "/home/{{username}}/dynamodb/dynamodb_local"
+    dest: "/home/{{username}}/dynamodb"
 
 - name: Start DynamoDB
   shell:
-    command: "java -Djava.library.path=/home/{{ username }}/dynamoDB/dynamodb_local/ -jar DynamoDBLocal.jar -sharedDb"
+    command: "java -Djava.library.path=/home/{{ username }}/dynamodb/dynamodb_local/ -jar DynamoDBLocal.jar -sharedDb"
