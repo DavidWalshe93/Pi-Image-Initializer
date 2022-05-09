@@ -1,7 +1,7 @@
 ---
 - name: Check if DynamoDB is already installed
   shell: "ls {{ dynamodb_jar }}"
-  register: dynamodb_installed || true
+  register: dynamodb_installed
   ignore_errors: yes
 
 - name: Make DynamoDB directory
