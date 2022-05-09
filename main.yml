@@ -87,5 +87,10 @@
       shell: bash tmp/get-docker.sh
       when: docker_installed.stdout == ""
 
+    - name: Add user to docker group
+      user:
+        name: "{{ username }}"
+        groups: docker
+        append: yes
 
       
