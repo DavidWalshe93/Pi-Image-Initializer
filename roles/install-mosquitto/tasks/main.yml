@@ -20,7 +20,7 @@
     state: present
     regexp: "listener 1883"
     line: "listener 1883"
-  when: mosquitto_installed is failed
+#  when: mosquitto_installed is failed
 
 - name: Check for Mosquitto allow clients
   shell: grep -c "allow_anonymous true" "{{ mosquitto_config_file }}" || true
