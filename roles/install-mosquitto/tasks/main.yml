@@ -1,8 +1,10 @@
 ---
 - name: Check if Mosquitto is installed
-  command: "mosquitto -v | grep -i 'mosquitto version'" || true
+  package:
+    name: mosquitto
+    state: present
+  check_mode: true
   register: mosquitto_installed
-  ignore_errors: yes
 
 - name: Install Mosquitto
   shell: apt install -y mosquitto mosquitto-clients
