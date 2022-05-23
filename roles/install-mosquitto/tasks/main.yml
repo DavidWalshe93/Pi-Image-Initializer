@@ -10,28 +10,19 @@
   shell: apt install -y mosquitto mosquitto-clients
   when: mosquitto_installed is failed
 
-- name: Check for Mosquitto listener port
-  shell: grep -c "listener 1883" "{{ mosquitto_config_file }}" || true
-  register: listener_port_enabled
-
 - name: Enable Mosquitto listener port
   lineinfile:
     path: "{{ mosquitto_config_file }}"
     state: present
     regexp: "listener 1883"
     line: "listener 1883"
-#  when: mosquitto_installed is failed
 
-- name: Check for Mosquitto allow clients
-  shell: grep -c "allow_anonymous true" "{{ mosquitto_config_file }}" || true
-  register: allow_anonymous_enabled
-
-- name: Enable Mosquitto listener port
+- name: Enable Mosquitto anonymous clients
   lineinfile:
     path: "{{ mosquitto_config_file }}"
-    insertafter: EOF
+    state: present
+    regexp: "allow_anonymous true"
     line: "allow_anonymous true"
-  when: allow_anonymous_enabled is false
 
 - name: Setup Mosquitto to run automatically at start time
   shell: systemctl enable mosquitto.service
