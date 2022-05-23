@@ -25,4 +25,4 @@
   when: dynamodb_installed is failed
 
 - name: Start DynamoDB
-  shell: "java -Djava.library.path={{ dynamodb_dir }}/DynamoDBLocal_Lib/ -jar {{ dynamodb_dir }}/DynamoDBLocal.jar -sharedDb -optimizeDbBeforeStartup -port {{ dynamodb_port }} &"
+  shell: "java -Djava.library.path={{ dynamodb_dir }}/DynamoDBLocal_Lib/ -jar {{ dynamodb_dir }}/DynamoDBLocal.jar -sharedDb -port {{ dynamodb_port }} &"

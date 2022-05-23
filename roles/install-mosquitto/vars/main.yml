@@ -1,0 +1,4 @@
+---
+mosquitto_config_file: "/etc/mosquitto/mosquitto.conf"
+mosquitto_listener_port: "listener 1883"
+mosquitto_allow_anonymous: "allow_anonymous true"

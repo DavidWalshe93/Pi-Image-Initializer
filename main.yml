@@ -10,7 +10,8 @@
 #      private: yes
   roles:
     - common
-    - install-awscli
-    - install-dynamodb
+    - install-mosquitto
 #    - setup-ssh
 #    - install-java
+#    - install-awscli
+#    - install-dynamodb

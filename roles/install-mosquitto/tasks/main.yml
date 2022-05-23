@@ -1,0 +1,37 @@
+---
+- name: Check if Mosquitto is installed
+  command: mosquitto -v
+  register: mosquitto_installed
+  ignore_errors: yes
+
+- name: Install Mosquitto
+  shell: apt install -y mosquitto mosquitto-clients
+  when: mosquitto_installed is failed
+
+- name: Check for Mosquitto listener port
+  shell: grep -c "listener 1883" "{{ mosquitto_config_file }}" || true
+  register: listener_port_enabled
+  when: mosquitto_installed is failed
+
+- name: Enable Mosquitto listener port
+  lineinfile:
+    path: "{{ mosquitto_config_file }}"
+    insertafter: EOF
+    line: "listener 1883"
+  when: ( mosquitto_installed is failed ) and ( listener_port_enabled is false )
+
+- name: Check for Mosquitto allow clients
+  shell: grep -c "allow_anonymous true" "{{ mosquitto_config_file }}" || true
+  register: allow_anonymous_enabled
+  when: mosquitto_installed is failed
+
+- name: Enable Mosquitto listener port
+  lineinfile:
+    path: "{{ mosquitto_config_file }}"
+    insertafter: EOF
+    line: "allow_anonymous true"
+  when: ( mosquitto_installed is failed ) and ( allow_anonymous is false )
+
+- name: Setup Mosquitto to run automatically at start time
+  shell: systemctl enable mosquitto.service
+  when: mosquitto_installed is failed
