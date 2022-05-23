@@ -9,8 +9,8 @@
 #      prompt: "What is the new password (Enter to skip)?"
 #      private: yes
   roles:
-    - common
     - install-mosquitto
+#    - common
 #    - setup-ssh
 #    - install-java
 #    - install-awscli
