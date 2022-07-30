@@ -9,6 +9,7 @@
 #      prompt: "What is the new password (Enter to skip)?"
 #      private: yes
   roles:
+    - install-pihole
 #    - common
 #    - setup-ssh
 #    - install-java
