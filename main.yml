@@ -9,9 +9,9 @@
 #      prompt: "What is the new password (Enter to skip)?"
 #      private: yes
   roles:
-    - install-mosquitto
 #    - common
 #    - setup-ssh
 #    - install-java
 #    - install-awscli
 #    - install-dynamodb
+#    - install-mosquitto

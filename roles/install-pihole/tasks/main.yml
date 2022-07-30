@@ -1,0 +1,10 @@
+---
+
+- name: Check if Java is installed
+  command: "pihole --version"
+  register: pihole_installed
+  ignore_errors: yes
+
+- name: Install PiHole
+  shell: curl -sSL https://install.pi-hole.net | bash
+  when: pihole_installed is failed
